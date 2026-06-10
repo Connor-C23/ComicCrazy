@@ -32,4 +32,44 @@ public class ComicsController : ControllerBase
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(GetAll), new { id = comic.Id }, comic);
     }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        var comic = await _context.Comics.FindAsync(id);
+        if (comic is null)
+            return NotFound();
+
+        return Ok(comic);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(Guid id, Comic updated)
+    {
+        var comic = await _context.Comics.FindAsync(id);
+        if (comic is null)
+            return NotFound();
+
+        comic.Title = updated.Title;
+        comic.Series = updated.Series;
+        comic.Publisher = updated.Publisher;
+        comic.IssueNumber = updated.IssueNumber;
+        comic.ReleaseDate = updated.ReleaseDate;
+        comic.Description = updated.Description;
+
+        await _context.SaveChangesAsync();
+        return Ok(comic);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var comic = await _context.Comics.FindAsync(id);
+        if (comic is null)
+            return NotFound();
+
+        _context.Comics.Remove(comic);
+        await _context.SaveChangesAsync();
+        return NoContent();
+    }
 }
