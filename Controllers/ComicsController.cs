@@ -1,7 +1,9 @@
 ﻿using ComicCrazy.API.Data;
 using ComicCrazy.API.Models;
+using ComicCrazy.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ComicCrazy.Controllers;
 
@@ -26,8 +28,21 @@ public class ComicsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(Comic comic)
+    [Authorize]
+    public async Task<IActionResult> Create(CreateComicRequest req) // limits what user can change details of to specifically whats in the
+                                                                    // Comic class as seen below, ID and Created At is set automatically because DTO wont accept user input of those fields
     {
+        var comic = new Comic
+        {
+            Title = req.Title,
+            Series = req.Series,
+            Publisher = req.Publisher,
+            IssueNumber = req.IssueNumber,
+            ReleaseDate = req.ReleaseDate,
+            Description = req.Description
+        };
+
+            
         _context.Comics.Add(comic);
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(GetAll), new { id = comic.Id }, comic);
@@ -44,6 +59,7 @@ public class ComicsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> Update(Guid id, Comic updated)
     {
         var comic = await _context.Comics.FindAsync(id);
@@ -62,6 +78,7 @@ public class ComicsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> Delete(Guid id)
     {
         var comic = await _context.Comics.FindAsync(id);
