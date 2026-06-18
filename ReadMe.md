@@ -51,6 +51,10 @@ Entity Framework Core, and MySQL.
 	dotnet run
 5. Open Swagger at `https://localhost:{port}/swagger`
 
+## Configuration
+Copy `appsettings.template.json`, rename it to `appsettings.Development.json`, 
+and fill in your own database credentials and JWT secret key.
+
 ## Future Features
 - Reviews and ratings
 - Discussion threads
