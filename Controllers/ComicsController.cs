@@ -28,7 +28,7 @@ public class ComicsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize]
+    [Authorize (Roles = "Admin")] // checks if user is logged in and if they have admin role using ASP.NET
     public async Task<IActionResult> Create(CreateComicRequest req) // limits what user can change details of to specifically whats in the
                                                                     // Comic class as seen below, ID and Created At is set automatically because DTO wont accept user input of those fields
     {
@@ -59,7 +59,7 @@ public class ComicsController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Update(Guid id, Comic updated)
     {
         var comic = await _context.Comics.FindAsync(id);
@@ -78,7 +78,7 @@ public class ComicsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var comic = await _context.Comics.FindAsync(id);

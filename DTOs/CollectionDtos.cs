@@ -1,7 +1,9 @@
-﻿namespace ComicCrazy.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ComicCrazy.DTOs
 {
 
-    public record AddToCollectionRequest(string status);
+    public record AddToCollectionRequest([Required]string status);
     
     public record CollectionItemResponse(
         Guid ComicId,

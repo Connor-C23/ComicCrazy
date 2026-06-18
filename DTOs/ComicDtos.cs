@@ -1,11 +1,13 @@
-﻿namespace ComicCrazy.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ComicCrazy.DTOs
 {
     public record CreateComicRequest
     (
-        string Title,
-        string Series,
-        string Publisher,
-        int IssueNumber,
+        [Required][MaxLength(200)] string Title,
+        [Required][MaxLength(200)] string Series,
+        [Required][MaxLength(200)] string Publisher,
+        [Range(1,1000)]int IssueNumber,
         DateOnly ReleaseDate,
-        string? Description);
+        [MaxLength(1000)]string? Description);
 }
