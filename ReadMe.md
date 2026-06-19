@@ -47,7 +47,7 @@ Entity Framework Core, and MySQL.
 2. Update the connection string in `appsettings.json`
 3. Run migrations: 
 	dotnet ef database update
-4. Run app
+4. Run app:
 	dotnet run
 5. Open Swagger at `https://localhost:{port}/swagger`
 
